@@ -222,15 +222,19 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-        }
-
+        } 
         .heading-word {
             display: inline-block;
             margin-right: 0.5rem;
             opacity: 0;
             transform: translateY(20px);
-        }
 
+            /* NEW LINES TO MAKE TEXT VISIBLE */
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+         }
         .download-btn {
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
