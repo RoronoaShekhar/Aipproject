@@ -7,164 +7,59 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <style>
-    /* (Your existing CSS unchanged) */
-    /* ... */
+    /* --- Keep your CSS as is (only truncated for brevity) --- */
+    body {font-family:'Poppins',sans-serif;background:#1a1a1a;color:#f5f5f5;}
+    .roll-card{padding:1.5rem;margin:.5rem;border-radius:.5rem;background:#2a2a2a;cursor:pointer;}
+    .roll-card:hover{background:#3a3a3a;}
+    .main-content{display:none;text-align:center;padding:2rem;}
+    .download-btn{background:#7a5cf5;color:white;padding:1rem 2rem;border:none;border-radius:.5rem;cursor:pointer;margin:1rem 0;}
+    .project-image{max-width:600px;width:100%;border-radius:1rem;margin-top:1rem;}
+    .loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:white;}
+    .modal-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);}
+    .modal-content{background:#2a2a2a;padding:2rem;border-radius:1rem;}
   </style>
 </head>
 <body>
   <div id="loading" class="loading">Loading...</div>
   <div id="modal" class="modal-overlay">
-    <div class="modal-content glass-effect gradient-overlay">
-      <h2 class="modal-title">Select Your Roll Number</h2>
+    <div class="modal-content">
+      <h2>Select Your Roll Number</h2>
       <div class="roll-grid">
-        <!-- Example roll cards -->
-        <div class="roll-card glass-effect" data-roll="36"><div class="roll-number">36</div></div>
-        <div class="roll-card glass-effect" data-roll="37"><div class="roll-number">37</div></div>
-        <div class="roll-card glass-effect" data-roll="38"><div class="roll-number">38</div></div>
-        <div class="roll-card glass-effect" data-roll="39"><div class="roll-number">39</div></div>
-        <div class="roll-card glass-effect" data-roll="40"><div class="roll-number">40</div></div>
+        <div class="roll-card" data-roll="36">36</div>
+        <div class="roll-card" data-roll="37">37</div>
+        <div class="roll-card" data-roll="38">38</div>
+        <div class="roll-card" data-roll="39">39</div>
+        <div class="roll-card" data-roll="40">40</div>
       </div>
     </div>
   </div>
   <div id="mainContent" class="main-content">
-    <div class="content-wrapper">
-      <h1 class="main-heading">
-        <!-- Heading words -->
-        <span class="heading-word">This</span> <span class="heading-word">is</span> <span class="heading-word">what</span>
-        <span class="heading-word">you</span> <span class="heading-word">have</span> <span class="heading-word">to</span>
-        <span class="heading-word">create</span> <span class="heading-word">for</span>
-        <span class="heading-word accent">English</span> <span class="heading-word accent">AIP.</span>
-      </h1>
-      <button id="downloadBtn" class="download-btn">Download Now</button>
-      <div class="project-image-container">
-        <img id="projectImage" class="project-image"
-          src="https://picsum.photos/id/1011/800/500"
-          alt="Default project placeholder">
-      </div>
-    </div>
+    <h1 id="mainHeading">This is what you have to create for English AIP.</h1>
+    <button id="downloadBtn" class="download-btn">Download Now</button>
+    <img id="projectImage" class="project-image"
+      src="https://picsum.photos/id/1011/800/500"
+      alt="Default Project">
   </div>
 
   <script>
-    // 1. Roll-to-image map for easy updates
-    const rollImages = {
-      36: { src: 'https://picsum.photos/id/1011/800/500', alt: 'Roll 36 Sample Image' },
-      37: { src: 'https://picsum.photos/id/1025/800/500', alt: 'Roll 37 Sample Image' },
-      38: { src: 'https://picsum.photos/id/1035/800/500', alt: 'Roll 38 Sample Image' },
-      39: { src: 'https://picsum.photos/id/1041/800/500', alt: 'Roll 39 Sample Image' },
-      40: { src: 'https://picsum.photos/id/1050/800/500', alt: 'Roll 40 Sample Image' }
-      // Add more entries as needed
-    };
-
-    let gsapLoaded = false;
-    const loading = document.getElementById('loading');
-    const modal = document.getElementById('modal');
-    const mainContent = document.getElementById('mainContent');
-    const rollCards = document.querySelectorAll('.roll-card');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const projectImage = document.getElementById('projectImage');
-    const headingWords = document.querySelectorAll('.heading-word');
-
-    // Check GSAP
-    function checkGSAP() {
-      if (typeof gsap !== 'undefined') {
-        gsapLoaded = true;
-        loading.style.display = 'none';
-        initApp();
-        return true;
-      }
-      return false;
-    }
-
-    function initApp() {
-      modal.style.display = 'flex';
-      gsapLoaded ? initPopupAnimation() : showModalFallback();
-      setupEventListeners();
-    }
-
-    function initPopupAnimation() {
-      gsap.set(modal, { opacity:0, visibility:'visible' });
-      gsap.set(rollCards, { y:20, opacity:0 });
-      const tl = gsap.timeline();
-      tl.to(modal, { duration:0.6, opacity:1, ease:"back.out(1.7)" })
-        .to(rollCards, { y:0, opacity:1, stagger:0.1, duration:0.4, ease:"power2.out" }, '-=0.3');
-    }
-
-    function showModalFallback() {
-      modal.style.opacity='1';
-      modal.style.visibility='visible';
-      rollCards.forEach(c=> c.style.opacity='1');
-    }
-
-    function initMainPageAnimations() {
-      if (!gsapLoaded) return showMainContentFallback();
-      gsap.set(headingWords, { y:15, opacity:0 });
-      gsap.set(projectImage, { scale:0.95, opacity:0 });
-      gsap.set(downloadBtn, { y:15, opacity:0 });
-      const tl = gsap.timeline();
-      tl.to(headingWords, { y:0, opacity:1, stagger:0.05, duration:0.6, ease:"power2.out" })
-        .to(downloadBtn, { y:0, opacity:1, duration:0.4, ease:"power2.out" }, '-=0.4')
-        .to(projectImage, { scale:1, opacity:1, duration:0.6, ease:"power2.out" }, '-=0.2');
-    }
-
-    function showMainContentFallback() {
-      headingWords.forEach(w=>{ w.style.opacity='1'; w.style.transform='translateY(0)'; });
-      downloadBtn.style.opacity='1';
-      projectImage.style.opacity='1';
-    }
-
-    function handleRollSelection(rollNumber) {
-      const img = rollImages[rollNumber];
-      if (img) {
-        projectImage.src = img.src;
-        projectImage.alt = img.alt;
-      }
-
-      const hideModal = () => {
-        modal.style.display = 'none';
-        mainContent.style.display = 'flex';
-        setTimeout(initMainPageAnimations, 100);
-      };
-
-      if (gsapLoaded) {
-        gsap.to(modal, {
-          duration: 0.4,
-          opacity: 0,
-          ease: "power1.in",
-          onComplete: hideModal
-        });
-      } else {
-        hideModal();
-      }
-    }
-
-    function handleDownload() {
-      const downloadUrl = projectImage.src;
-      window.open(downloadUrl, '_blank');
-      if (gsapLoaded) {
-        gsap.to(downloadBtn, { scale:1.05, duration:0.1, yoyo:true, repeat:1 });
-      }
-    }
-
-    function setupEventListeners() {
-      rollCards.forEach(card => {
-        card.addEventListener('click', () => handleRollSelection(+card.dataset.roll));
-      });
-      downloadBtn.addEventListener('click', handleDownload);
-      downloadBtn.addEventListener('mouseenter',() => gsapLoaded && gsap.to(downloadBtn,{scale:1.02,duration:0.2}));
-      downloadBtn.addEventListener('mouseleave',() => gsapLoaded && gsap.to(downloadBtn,{scale:1,duration:0.2}));
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if (checkGSAP()) return;
-      const interval = setInterval(() => checkGSAP() && clearInterval(interval), 100);
-      setTimeout(() => {
-        clearInterval(interval);
-        if (!gsapLoaded) {
-          loading.style.display = 'none';
-          initApp();
-        }
-      }, 5000);
-    });
-  </script>
-</body>
-</html>
+    // ✅ Personalised Roll Data
+    const rollData = {
+      36: {
+        img:{src:'https://picsum.photos/id/1011/800/500',alt:'Roll 36 Project'},
+        download:{url:'https://file-examples.com/storage/fe1.pdf',text:'Download Roll 36 File'}
+      },
+      37: {
+        img:{src:'https://picsum.photos/id/1025/800/500',alt:'Roll 37 Project'},
+        download:{url:'https://file-examples.com/storage/fe2.pdf',text:'Download Roll 37 File'}
+      },
+      38: {
+        img:{src:'https://picsum.photos/id/1035/800/500',alt:'Roll 38 Project'},
+        download:{url:'https://file-examples.com/storage/fe3.pdf',text:'Download Roll 38 File'}
+      },
+      39: {
+        img:{src:'https://picsum.photos/id/1041/800/500',alt:'Roll 39 Project'},
+        download:{url:'https://file-examples.com/storage/fe4.pdf',text:'Download Roll 39 File'}
+      },
+      40: {
+        img:{src:'https://picsum.photos/id/1050/800/500',alt:'Roll 40 Project'},
+        download:{url:'https://file-ex
