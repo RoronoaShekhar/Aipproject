@@ -7,59 +7,134 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <style>
-    /* --- Keep your CSS as is (only truncated for brevity) --- */
-    body {font-family:'Poppins',sans-serif;background:#1a1a1a;color:#f5f5f5;}
-    .roll-card{padding:1.5rem;margin:.5rem;border-radius:.5rem;background:#2a2a2a;cursor:pointer;}
-    .roll-card:hover{background:#3a3a3a;}
-    .main-content{display:none;text-align:center;padding:2rem;}
-    .download-btn{background:#7a5cf5;color:white;padding:1rem 2rem;border:none;border-radius:.5rem;cursor:pointer;margin:1rem 0;}
-    .project-image{max-width:600px;width:100%;border-radius:1rem;margin-top:1rem;}
-    .loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:white;}
-    .modal-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);}
-    .modal-content{background:#2a2a2a;padding:2rem;border-radius:1rem;}
+    /* ====== Your Original CSS Kept Short (No Features Removed) ====== */
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--dark-bg:hsl(0,0%,10.2%);--dark-surface:hsl(0,0%,14.1%);--dark-text:hsl(0,0%,96.1%);--accent-purple:hsl(254,90%,60%)}
+    body{font-family:'Poppins',sans-serif;background:var(--dark-bg);color:var(--dark-text);min-height:100vh}
+    .modal-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.9);backdrop-filter:blur(8px);opacity:0;visibility:hidden}
+    .modal-content{background:rgba(255,255,255,0.05);padding:2rem;border-radius:1rem;text-align:center}
+    .modal-title{font-size:1.5rem;margin-bottom:1rem}
+    .roll-grid{display:grid;gap:1rem}
+    .roll-card{background:rgba(255,255,255,0.05);padding:1rem;border-radius:.75rem;cursor:pointer;text-align:center;transition:.3s}
+    .roll-card:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px)}
+    .roll-number{color:var(--accent-purple);font-size:1.25rem}
+    .main-content{display:none;align-items:center;justify-content:center;flex-direction:column;padding:2rem}
+    .main-heading{font-size:2rem;margin-bottom:1rem}
+    .download-btn{background:var(--accent-purple);color:#fff;padding:1rem 2rem;border:none;border-radius:.75rem;margin-bottom:1rem;cursor:pointer;transition:.3s}
+    .download-btn:hover{background:hsl(254,90%,55%)}
+    .project-image{max-width:32rem;width:100%;border-radius:1rem;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+    .loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#fff}
   </style>
 </head>
 <body>
   <div id="loading" class="loading">Loading...</div>
   <div id="modal" class="modal-overlay">
     <div class="modal-content">
-      <h2>Select Your Roll Number</h2>
+      <h2 class="modal-title">Select Your Roll Number</h2>
       <div class="roll-grid">
-        <div class="roll-card" data-roll="36">36</div>
-        <div class="roll-card" data-roll="37">37</div>
-        <div class="roll-card" data-roll="38">38</div>
-        <div class="roll-card" data-roll="39">39</div>
-        <div class="roll-card" data-roll="40">40</div>
+        <div class="roll-card" data-roll="36"><div class="roll-number">36</div></div>
+        <div class="roll-card" data-roll="37"><div class="roll-number">37</div></div>
+        <div class="roll-card" data-roll="38"><div class="roll-number">38</div></div>
+        <div class="roll-card" data-roll="39"><div class="roll-number">39</div></div>
+        <div class="roll-card" data-roll="40"><div class="roll-number">40</div></div>
       </div>
     </div>
   </div>
   <div id="mainContent" class="main-content">
-    <h1 id="mainHeading">This is what you have to create for English AIP.</h1>
+    <h1 class="main-heading">Your Personalized Project</h1>
     <button id="downloadBtn" class="download-btn">Download Now</button>
     <img id="projectImage" class="project-image"
-      src="https://picsum.photos/id/1011/800/500"
-      alt="Default Project">
+         src="https://picsum.photos/id/1011/800/500"
+         alt="Default project">
   </div>
 
-  <script>
-    // ✅ Personalised Roll Data
-    const rollData = {
-      36: {
-        img:{src:'https://picsum.photos/id/1011/800/500',alt:'Roll 36 Project'},
-        download:{url:'https://file-examples.com/storage/fe1.pdf',text:'Download Roll 36 File'}
-      },
-      37: {
-        img:{src:'https://picsum.photos/id/1025/800/500',alt:'Roll 37 Project'},
-        download:{url:'https://file-examples.com/storage/fe2.pdf',text:'Download Roll 37 File'}
-      },
-      38: {
-        img:{src:'https://picsum.photos/id/1035/800/500',alt:'Roll 38 Project'},
-        download:{url:'https://file-examples.com/storage/fe3.pdf',text:'Download Roll 38 File'}
-      },
-      39: {
-        img:{src:'https://picsum.photos/id/1041/800/500',alt:'Roll 39 Project'},
-        download:{url:'https://file-examples.com/storage/fe4.pdf',text:'Download Roll 39 File'}
-      },
-      40: {
-        img:{src:'https://picsum.photos/id/1050/800/500',alt:'Roll 40 Project'},
-        download:{url:'https://file-ex
+<script>
+  /* ====== PERSONALIZED ROLL DATA ====== */
+  const rollData = {
+    36: {
+      img: {src:"https://picsum.photos/id/1011/800/500", alt:"Roll 36 Project"},
+      download:{url:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", text:"Download Roll 36 PDF"}
+    },
+    37: {
+      img: {src:"https://picsum.photos/id/1025/800/500", alt:"Roll 37 Project"},
+      download:{url:"https://file-examples.com/storage/fe7d1e2fb.pdf", text:"Download Roll 37 File"}
+    },
+    38: {
+      img: {src:"https://picsum.photos/id/1035/800/500", alt:"Roll 38 Project"},
+      download:{url:"https://www.clickdimensions.com/links/TestPDFfile.pdf", text:"Get Roll 38 Project"}
+    },
+    39: {
+      img: {src:"https://picsum.photos/id/1041/800/500", alt:"Roll 39 Project"},
+      download:{url:"https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf", text:"Roll 39 Assignment"}
+    },
+    40: {
+      img: {src:"https://picsum.photos/id/1050/800/500", alt:"Roll 40 Project"},
+      download:{url:"https://gahp.net/wp-content/uploads/2017/09/sample.pdf", text:"Roll 40 Notes"}
+    }
+  };
+
+  let gsapLoaded=false;
+  const loading=document.getElementById('loading'),
+        modal=document.getElementById('modal'),
+        mainContent=document.getElementById('mainContent'),
+        rollCards=document.querySelectorAll('.roll-card'),
+        downloadBtn=document.getElementById('downloadBtn'),
+        projectImage=document.getElementById('projectImage');
+
+  function checkGSAP(){
+    if(typeof gsap!=='undefined'){gsapLoaded=true;loading.style.display='none';initApp();return true}
+    return false
+  }
+
+  function initApp(){
+    modal.style.display='flex';
+    if(gsapLoaded)initPopupAnimation();else showModalFallback();
+    setupEventListeners()
+  }
+
+  function initPopupAnimation(){
+    gsap.set(modal,{opacity:0,visibility:'visible'});
+    gsap.set(rollCards,{y:20,opacity:0});
+    gsap.timeline().to(modal,{duration:.6,opacity:1,ease:"back.out(1.7)"})
+    .to(rollCards,{y:0,opacity:1,stagger:.1,duration:.4,ease:"power2.out"},"-=0.3")
+  }
+
+  function showModalFallback(){
+    modal.style.opacity='1';modal.style.visibility='visible';
+    rollCards.forEach(c=>c.style.opacity='1')
+  }
+
+  function initMainPageAnimations(){
+    if(!gsapLoaded)return;
+    gsap.set(mainContent,{opacity:0,scale:.95});
+    gsap.to(mainContent,{opacity:1,scale:1,duration:.6,ease:"power2.out"})
+  }
+
+  function handleRollSelection(rollNumber){
+    const data=rollData[rollNumber];
+    if(data){
+      projectImage.src=data.img.src;
+      projectImage.alt=data.img.alt;
+      downloadBtn.textContent=data.download.text;
+      downloadBtn.onclick=()=>window.open(data.download.url,'_blank');
+    }
+    const showMain=()=>{
+      modal.style.display='none';
+      mainContent.style.display='flex';
+      initMainPageAnimations()
+    };
+    gsapLoaded?gsap.to(modal,{duration:.4,opacity:0,ease:"power1.in",onComplete:showMain}):showMain()
+  }
+
+  function setupEventListeners(){
+    rollCards.forEach(c=>c.addEventListener('click',()=>handleRollSelection(+c.dataset.roll)))
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    if(checkGSAP())return;
+    const interval=setInterval(()=>checkGSAP()&&clearInterval(interval),100);
+    setTimeout(()=>{clearInterval(interval);if(!gsapLoaded){loading.style.display='none';initApp()}},5000)
+  });
+</script>
+</body>
+</html>
